@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="music player " />
+    <link rel="icon" type="image/x-icon" href="assets/logo_1.png" />
+
+    <title>Qignet</title>
+
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <!--TODO: Font-awesome  ---->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!--TODO: Jquery  ---->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+
+  <body>
+    <div class="loading_page"></div>
+
+    <div class="container">
+      <aside>
+        <ul class="un_aside">
+          <a href="/" class="logo"> <img src="assets/logo_1.png" alt="" /> <span>QIGNET</span> </a>
+        </ul>
+
+        <ul>
+          <button title="Home" class="side_nav active " onclick="home()">
+            <i class="fa fa-home " aria-hidden="true"></i> <span> home </span>
+          </button>
+
+          <button title="search" class="side_nav" value="-" onclick="searching(this.value)">
+            <i class="fa fa-search" aria-hidden="true"></i> <span> search </span>
+          </button>
+
+          <button title="Musics" class="side_nav" onclick="all_songs()">
+            <i class="fa fa-music" aria-hidden="true"></i> <span> musics </span>
+          </button>
+
+          <button title="recently played" class="side_nav" onclick="recantly_player_songs()">
+            <i class="fa fa-clock" aria-hidden="true"></i> <span> recently played </span>
+          </button>
+
+          <button title="Like songs" class="side_nav" value="" onclick="like_song(this.value)">
+            <i class="fa  fa-heart"></i> <span> like song </span>
+          </button>
+        </ul>
+
+        <ul class="un_aside folloing_cont">
+          <button
+            title="Imagine Dragons"
+            class="side_nav follow_btn"
+            value="36"
+            onclick="artistPage(this.value,'Imagine Dragons')"
+          >
+            <i> <img src="assets/avatars/R (3).jpeg" alt="sdsd" /> </i> <span> Imagine Dragons </span>
+          </button>
+
+          <button title="Rophnan" class="side_nav follow_btn" value="34" onclick="artistPage(this.value,'Rophnan')">
+            <i> <img src="assets/avatars/rophnan.jpg" alt="sdsd" /> </i> <span> Rophnan </span>
+          </button>
+
+          <button title="Zara larsson" class="side_nav follow_btn" value="35" onclick="artistPage(this.value,'Zara larsson')">
+            <i> <img src="assets/avatars/maxresdefault.jpg" alt="sdsd" /> </i> <span> Zara larsson </span>
+          </button>
+        </ul>
+      </aside>
+
+      <div class="player_controll_container">
+        <button onclick="controll_resize()" class="music_cont_resize">
+          <i class=" fa fa-angle-down" aria-hidden="true"></i>
+        </button>
+        <div class="player_controll">
+          <div class="img"><img class="current_music_image" src="" alt="" /></div>
+
+          <span class="detail">
+            <button onclick="artistPage(this.value,this.value)" class="current_music_artist btn1 w-fit"></button>
+            <div class="current_music_title"></div>
+          </span>
+
+          <div class="controll">
+            <button title="Previous" id="previous_play"><i class="fa-solid fa-backward-step"></i></button>
+
+            <button title="Play" onclick="play_music()" class="play_pause_btn">
+              <i class="fa fa-play" aria-hidden="true"></i>
+            </button>
+
+            <button title="next" id="next_play"><i class="fa-solid fa-forward-step"></i></button>
+          </div>
+
+          <div class="time_slider">
+            <input oninput="changeDuration()" class="time_changer" max="100" type="range" value="0" />
+          </div>
+
+          <div class="volumes">
+            <span class="vol_changer">
+              <button class="muted_btn"><i class="fa fa-volume-up" aria-hidden="true"></i></button>
+
+              <input oninput="volumeChange(this.value)" class="volume_slider" value="50" type="range" max="100" />
+            </span>
+
+            <span>
+              <button onclick="add_like_song(this.value)" title="like this song " class="current_music_like_btn">
+                <i class="fa  fa-heart" aria-hidden="true"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <main id="main">
+        <header class="main_navs">
+          <div class="navs">
+            <span class="btn" onclick="all_songs()"> New Release </span>
+            <span class="ex_btns">
+              <button onclick="aside_bar()" class="btn logo  "><i class="fs-1 fa fa-bars" aria-hidden="true"></i></button>
+            </span>
+
+            <a href="/" class="logo"> <img src="assets/logo_1.png" alt="" /> <span> QIGNET </span> </a>
+
+            <div class="dropdown">
+              <button onclick="menu()" onblur="menu()" class="avatar">
+                <img src="assets/avatars/man-with-shocked-expression_108280-1843.avif" alt="" />
+              </button>
+
+              <div class="menus">
+                <button onclick="openProfile()">
+                  <i class="fa fa-user" aria-hidden="true"></i> <span class="menu_content">Account</span>
+                </button>
+
+                <a href="/upload.html">
+                  <button onclick="openProfile()">
+                    <i class="fa fa-plus" aria-hidden="true"></i> <span class="menu_content">upload</span>
+                  </button>
+                </a>
+
+                <button onclick="profile_editor()">
+                  <i class="fa-solid fa-gear"></i> <span class="menu_content">setting</span>
+                </button>
+
+                <a href="/?logout">
+                  <button type="submit">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="menu_content">logout</span>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="searching_page">
+            <form action="">
+              <i class="fa fa-search" aria-hidden="true"></i>
+              <input oninput="searching(this.value)" type="search" placeholder="search music" />
+            </form>
+          </div>
+        </header>
+
+        <div class="divider"></div>
+        <!-----   home pages        ---------->
+        <div style="animation: play_list_intro .5s;" class="home_view">
+          <!--  artists         -->
+          <div>
+            <div class="d-flex jc-space-between ai-center content_title ">
+              <span> artists </span>
+
+              <button onclick="all_artists()"><i class="fa fa-angle-right"></i></button>
+            </div>
+
+            <div class="card_container ">
+              <button
+                value="33"
+                onclick="artistPage(this.value,'Selena Gomeze') "
+                style="background-image:  url('assets/avatars/R.jpeg');"
+                class="card artist"
+              >
+                <span> <p class="artist">Selena Gomeze</p> </span>
+              </button>
+
+              <button
+                value="32"
+                onclick="artistPage(this.value,'Ariana Grande') "
+                style="background-image:  url('assets/avatars/afbf4e6c-1df8-4151-8384-4e01333f2605-eternal_sunshine_standard_cover.avif');"
+                class="card artist"
+              >
+                <span> <p class="artist">Ariana Grande</p> </span>
+              </button>
+
+              <button
+                value="42"
+                onclick="artistPage(this.value,'dame') "
+                style="background-image:  url('assets/avatars/IMG_20240224_102458-01.jpeg');"
+                class="card artist"
+              >
+                <span> <p class="artist">dame</p> </span>
+              </button>
+
+              <button
+                value="35"
+                onclick="artistPage(this.value,'Zara larsson') "
+                style="background-image:  url('assets/avatars/maxresdefault.jpg');"
+                class="card artist"
+              >
+                <span> <p class="artist">Zara larsson</p> </span>
+              </button>
+            </div>
+          </div>
+          <!--  your favorite songs          ------->
+          <div>
+            <div class="d-flex jc-space-between ai-center content_title "><span> you favorite songs </span></div>
+
+            <div class="card_container">
+              <button style="background-image:  url('assets/albem_arts/OIP (2).jpeg');" class="card">
+                <span class="music_btn">
+                  <i
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Imagine Dragons feat J.I.D"
+                    data-title=" Enemy"
+                    data-music_sours="Imagine_Dragons_x_J.I.D_-_Enemy_(from_the_series_Arcane_League_of_Legends)(360p)_00.mp3"
+                    data-image="OIP (2).jpeg"
+                    data-artist="Imagine Dragons feat J.I.D"
+                    data-title=" Enemy"
+                    data-user_id="36"
+                    data-id="28"
+                    class="fa fa-play player_btn"
+                    aria-hidden="true"
+                  ></i>
+
+                  <p>Enemy</p>
+
+                  <p onclick="artistPage('36','Imagine Dragons feat J.I.D')" class="artist">Imagine Dragons feat J.I.D</p>
+                </span>
+              </button>
+
+              <button style="background-image:  url('assets/albem_arts/OIP (1).jpeg');" class="card">
+                <span class="music_btn">
+                  <i
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Rophnan"
+                    data-title=" Behon"
+                    data-music_sours="6 - Rophnan - Essey.mp3"
+                    data-image="OIP (1).jpeg"
+                    data-artist="Rophnan"
+                    data-title=" Behon"
+                    data-user_id="34"
+                    data-id="26"
+                    class="fa fa-play player_btn"
+                    aria-hidden="true"
+                  ></i>
+
+                  <p>Behon</p>
+
+                  <p onclick="artistPage('34','Rophnan')" class="artist">Rophnan</p>
+                </span>
+              </button>
+
+              <button style="background-image:  url('assets/albem_arts/R (2).jpeg');" class="card">
+                <span class="music_btn">
+                  <i
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Zara larsson"
+                    data-title=" Right here"
+                    data-music_sours="Zara_Larsson_Right_Here.mp3"
+                    data-image="R (2).jpeg"
+                    data-artist="Zara larsson"
+                    data-title=" Right here"
+                    data-user_id="35"
+                    data-id="27"
+                    class="fa fa-play player_btn"
+                    aria-hidden="true"
+                  ></i>
+
+                  <p>Right here</p>
+
+                  <p onclick="artistPage('35','Zara larsson')" class="artist">Zara larsson</p>
+                </span>
+              </button>
+            </div>
+          </div>
+          <!--  for you songs      -->
+          <div>
+            <div class="d-flex jc-space-between ai-center mt-10 content_title"><span> for you </span></div>
+
+            <div class="card_container ">
+              <button style="background-image:  url('assets/albem_arts/OIP (1).jpeg');" class="card">
+                <span class="music_btn">
+                  <i
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Rophnan"
+                    data-title=" Behon"
+                    data-music_sours="6 - Rophnan - Essey.mp3"
+                    data-image="OIP (1).jpeg"
+                    data-artist="Rophnan"
+                    data-title=" Behon"
+                    data-id="26"
+                    data-user_id="34"
+                    class="fa fa-play player_btn"
+                    aria-hidden="true"
+                  ></i>
+                  <p>Behon</p>
+
+                  <p onclick="artistPage('34','Rophnan')" class="artist">Rophnan</p>
+                </span>
+              </button>
+
+              <button style="background-image:  url('assets/albem_arts/photo_2024-07-04_02-04-47.jpg');" class="card">
+                <span class="music_btn">
+                  <i
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Rophnan"
+                    data-title=" hamet"
+                    data-music_sours="5 - Rophnan - Hamet.mp3"
+                    data-image="photo_2024-07-04_02-04-47.jpg"
+                    data-artist="Rophnan"
+                    data-title=" hamet"
+                    data-id="31"
+                    data-user_id="34"
+                    class="fa fa-play player_btn"
+                    aria-hidden="true"
+                  ></i>
+                  <p>hamet</p>
+
+                  <p onclick="artistPage('34','Rophnan')" class="artist">Rophnan</p>
+                </span>
+              </button>
+
+              <button style="background-image:  url('assets/albem_arts/photo_2024-07-15_22-25-06.jpg');" class="card">
+                <span class="music_btn">
+                  <i
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Ariana Grande"
+                    data-title=" Position"
+                    data-music_sours="Ariana Grande - positions.mp3"
+                    data-image="photo_2024-07-15_22-25-06.jpg"
+                    data-artist="Ariana Grande"
+                    data-title=" Position"
+                    data-id="21"
+                    data-user_id="32"
+                    class="fa fa-play player_btn"
+                    aria-hidden="true"
+                  ></i>
+                  <p>Position</p>
+
+                  <p onclick="artistPage('32','Ariana Grande')" class="artist">Ariana Grande</p>
+                </span>
+              </button>
+
+              <button style="background-image:  url('assets/albem_arts/OIP (1).jpeg');" class="card">
+                <span class="music_btn">
+                  <i
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Rophnan"
+                    data-title=" Qal"
+                    data-music_sours="2 - Rophnan - Qal.mp3"
+                    data-image="OIP (1).jpeg"
+                    data-artist="Rophnan"
+                    data-title=" Qal"
+                    data-id="25"
+                    data-user_id="34"
+                    class="fa fa-play player_btn"
+                    aria-hidden="true"
+                  ></i>
+                  <p>Qal</p>
+
+                  <p onclick="artistPage('34','Rophnan')" class="artist">Rophnan</p>
+                </span>
+              </button>
+            </div>
+          </div>
+          <!--  your like songs      -->
+          <div>
+            <div class="d-flex jc-space-between ai-center mt-10 content_title ">
+              <span> Your Like songs </span> <button onclick="like_song(43)"><i class="fa fa-angle-right"></i></button>
+            </div>
+            <div class="card_container">
+              <button style="background-image:  url('assets/albem_arts/photo_2021-04-23_08-22-33.jpg');" class="card">
+                <span class="music_btn">
+                  <i
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Ariana Grande feat the weekend"
+                    data-title=" save your tears"
+                    data-music_sours="01 Save Your Tears (with Ariana Grande) (Remix).mp3"
+                    data-image="photo_2021-04-23_08-22-33.jpg"
+                    data-artist="Ariana Grande feat the weekend"
+                    data-title=" save your tears"
+                    data-id="22"
+                    data-user_id="32"
+                    class="fa fa-play player_btn"
+                    aria-hidden="true"
+                  ></i>
+                  <p>save your tears</p>
+
+                  <p onclick="artistPage('32','Ariana Grande feat the weekend')" class="artist">
+                    Ariana Grande feat the weekend
+                  </p>
+                </span>
+              </button>
+
+              <button style="background-image:  url('assets/albem_arts/photo_2024-07-15_22-25-06.jpg');" class="card">
+                <span class="music_btn">
+                  <i
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Ariana Grande"
+                    data-title=" Position"
+                    data-music_sours="Ariana Grande - positions.mp3"
+                    data-image="photo_2024-07-15_22-25-06.jpg"
+                    data-artist="Ariana Grande"
+                    data-title=" Position"
+                    data-id="21"
+                    data-user_id="32"
+                    class="fa fa-play player_btn"
+                    aria-hidden="true"
+                  ></i>
+                  <p>Position</p>
+
+                  <p onclick="artistPage('32','Ariana Grande')" class="artist">Ariana Grande</p>
+                </span>
+              </button>
+
+              <button style="background-image:  url('assets/albem_arts/R (1).jpeg');" class="card">
+                <span class="music_btn">
+                  <i
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Selena Gomeze"
+                    data-title=" love you like love song"
+                    data-music_sours="Selena-Gomez-Love-You-Like-A-Love-Song-128.mp3"
+                    data-image="R (1).jpeg"
+                    data-artist="Selena Gomeze"
+                    data-title=" love you like love song"
+                    data-id="24"
+                    data-user_id="33"
+                    class="fa fa-play player_btn"
+                    aria-hidden="true"
+                  ></i>
+                  <p>love you like love song</p>
+
+                  <p onclick="artistPage('33','Selena Gomeze')" class="artist">Selena Gomeze</p>
+                </span>
+              </button>
+
+              <button style="background-image:  url('assets/albem_arts/R (2).jpeg');" class="card">
+                <span class="music_btn">
+                  <i
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Zara larsson"
+                    data-title=" Right here"
+                    data-music_sours="Zara_Larsson_Right_Here.mp3"
+                    data-image="R (2).jpeg"
+                    data-artist="Zara larsson"
+                    data-title=" Right here"
+                    data-id="27"
+                    data-user_id="35"
+                    class="fa fa-play player_btn"
+                    aria-hidden="true"
+                  ></i>
+                  <p>Right here</p>
+
+                  <p onclick="artistPage('35','Zara larsson')" class="artist">Zara larsson</p>
+                </span>
+              </button>
+            </div>
+          </div>
+          <!--   New releases     -->
+          <div class="d-flex jc-space-between ai-center mt-10 content_title ">
+            <span> new release </span> <button onclick="all_songs()"><i class="fa fa-angle-right"></i></button>
+          </div>
+          <div class="music_list_container">
+            <div class="music_list">
+              <span class="left">
+                <button
+                  onclick="play_up(this)"
+                  title="click to open "
+                  data-artistname="Rophnan"
+                  data-title=" Behon"
+                  data-music_sours="7 - Rophnan - Bihon.mp3"
+                  data-image="photo_2024-06-29_19-03-31.jpg"
+                  data-artist="Rophnan"
+                  data-title=" Behon"
+                  data-id="32"
+                  data-user_id="34"
+                >
+                  <i class="fa fa-play " aria-hidden="true"></i>
+                </button>
+                <img src="assets/albem_arts/photo_2024-06-29_19-03-31.jpg" alt="" />
+
+                <div class="music_detail">
+                  <p class="title">Behon</p>
+
+                  <p onclick="artistPage('34','Rophnan')" class="artist">Rophnan</p>
+                </div>
+              </span>
+
+              <span>
+                <a href="assets/musics/7 - Rophnan - Bihon.mp3" download="qignet_music-Rophnan_ Behon">
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                </a>
+
+                <button class="like_btn  theme-text-color   " value="32" onclick="add_like_song(this.value)">
+                  <i class="fa fa-heart " aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+
+            <div class="music_list">
+              <span class="left">
+                <button
+                  onclick="play_up(this)"
+                  title="click to open "
+                  data-artistname="Rophnan"
+                  data-title=" hamet"
+                  data-music_sours="5 - Rophnan - Hamet.mp3"
+                  data-image="photo_2024-07-04_02-04-47.jpg"
+                  data-artist="Rophnan"
+                  data-title=" hamet"
+                  data-id="31"
+                  data-user_id="34"
+                >
+                  <i class="fa fa-play " aria-hidden="true"></i>
+                </button>
+                <img src="assets/albem_arts/photo_2024-07-04_02-04-47.jpg" alt="" />
+
+                <div class="music_detail">
+                  <p class="title">hamet</p>
+
+                  <p onclick="artistPage('34','Rophnan')" class="artist">Rophnan</p>
+                </div>
+              </span>
+
+              <span>
+                <a href="assets/musics/5 - Rophnan - Hamet.mp3" download="qignet_music-Rophnan_ hamet">
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                </a>
+
+                <button class="like_btn  theme-text-color   " value="31" onclick="add_like_song(this.value)">
+                  <i class="fa fa-heart " aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+
+            <div class="music_list">
+              <span class="left">
+                <button
+                  onclick="play_up(this)"
+                  title="click to open "
+                  data-artistname="Ariana Grande"
+                  data-title=" Position"
+                  data-music_sours="Ariana Grande - positions.mp3"
+                  data-image="photo_2024-07-15_22-25-06.jpg"
+                  data-artist="Ariana Grande"
+                  data-title=" Position"
+                  data-id="21"
+                  data-user_id="32"
+                >
+                  <i class="fa fa-play " aria-hidden="true"></i>
+                </button>
+                <img src="assets/albem_arts/photo_2024-07-15_22-25-06.jpg" alt="" />
+
+                <div class="music_detail">
+                  <p class="title">Position</p>
+
+                  <p onclick="artistPage('32','Ariana Grande')" class="artist">Ariana Grande</p>
+                </div>
+              </span>
+
+              <span>
+                <a href="assets/musics/Ariana Grande - positions.mp3" download="qignet_music-Ariana Grande_ Position">
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                </a>
+
+                <button class="like_btn  theme-text-color   " value="21" onclick="add_like_song(this.value)">
+                  <i class="fa fa-heart theme-text-color " aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+
+            <div class="music_list">
+              <span class="left">
+                <button
+                  onclick="play_up(this)"
+                  title="click to open "
+                  data-artistname="Ariana Grande feat the weekend"
+                  data-title=" save your tears"
+                  data-music_sours="01 Save Your Tears (with Ariana Grande) (Remix).mp3"
+                  data-image="photo_2021-04-23_08-22-33.jpg"
+                  data-artist="Ariana Grande feat the weekend"
+                  data-title=" save your tears"
+                  data-id="22"
+                  data-user_id="32"
+                >
+                  <i class="fa fa-play " aria-hidden="true"></i>
+                </button>
+                <img src="assets/albem_arts/photo_2021-04-23_08-22-33.jpg" alt="" />
+
+                <div class="music_detail">
+                  <p class="title">save your tears</p>
+
+                  <p onclick="artistPage('32','Ariana Grande feat the weekend')" class="artist">
+                    Ariana Grande feat the weekend
+                  </p>
+                </div>
+              </span>
+
+              <span>
+                <a
+                  href="assets/musics/01 Save Your Tears (with Ariana Grande) (Remix).mp3"
+                  download="qignet_music-Ariana Grande feat the weekend_ save your tears"
+                >
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                </a>
+
+                <button class="like_btn  theme-text-color   " value="22" onclick="add_like_song(this.value)">
+                  <i class="fa fa-heart theme-text-color " aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+
+            <div class="music_list">
+              <span class="left">
+                <button
+                  onclick="play_up(this)"
+                  title="click to open "
+                  data-artistname="Ariana grande feat social house"
+                  data-title=" boy friende"
+                  data-music_sours="01 boyfriend.mp3"
+                  data-image="photo_2024-07-15_22-17-39.jpg"
+                  data-artist="Ariana grande feat social house"
+                  data-title=" boy friende"
+                  data-id="23"
+                  data-user_id="32"
+                >
+                  <i class="fa fa-play " aria-hidden="true"></i>
+                </button>
+                <img src="assets/albem_arts/photo_2024-07-15_22-17-39.jpg" alt="" />
+
+                <div class="music_detail">
+                  <p class="title">boy friende</p>
+
+                  <p onclick="artistPage('32','Ariana grande feat social house')" class="artist">
+                    Ariana grande feat social house
+                  </p>
+                </div>
+              </span>
+
+              <span>
+                <a href="assets/musics/01 boyfriend.mp3" download="qignet_music-Ariana grande feat social house_ boy friende">
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                </a>
+
+                <button class="like_btn  theme-text-color   " value="23" onclick="add_like_song(this.value)">
+                  <i class="fa fa-heart " aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+
+            <div class="music_list">
+              <span class="left">
+                <button
+                  onclick="play_up(this)"
+                  title="click to open "
+                  data-artistname="Selena Gomeze"
+                  data-title=" love you like love song"
+                  data-music_sours="Selena-Gomez-Love-You-Like-A-Love-Song-128.mp3"
+                  data-image="R (1).jpeg"
+                  data-artist="Selena Gomeze"
+                  data-title=" love you like love song"
+                  data-id="24"
+                  data-user_id="33"
+                >
+                  <i class="fa fa-play " aria-hidden="true"></i>
+                </button>
+                <img src="assets/albem_arts/R (1).jpeg" alt="" />
+
+                <div class="music_detail">
+                  <p class="title">love you like love song</p>
+
+                  <p onclick="artistPage('33','Selena Gomeze')" class="artist">Selena Gomeze</p>
+                </div>
+              </span>
+
+              <span>
+                <a
+                  href="assets/musics/Selena-Gomez-Love-You-Like-A-Love-Song-128.mp3"
+                  download="qignet_music-Selena Gomeze_ love you like love song"
+                >
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                </a>
+
+                <button class="like_btn  theme-text-color   " value="24" onclick="add_like_song(this.value)">
+                  <i class="fa fa-heart theme-text-color " aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+
+            <div class="music_list">
+              <span class="left">
+                <button
+                  onclick="play_up(this)"
+                  title="click to open "
+                  data-artistname="Rophnan"
+                  data-title=" Qal"
+                  data-music_sours="2 - Rophnan - Qal.mp3"
+                  data-image="OIP (1).jpeg"
+                  data-artist="Rophnan"
+                  data-title=" Qal"
+                  data-id="25"
+                  data-user_id="34"
+                >
+                  <i class="fa fa-play " aria-hidden="true"></i>
+                </button>
+                <img src="assets/albem_arts/OIP (1).jpeg" alt="" />
+
+                <div class="music_detail">
+                  <p class="title">Qal</p>
+
+                  <p onclick="artistPage('34','Rophnan')" class="artist">Rophnan</p>
+                </div>
+              </span>
+
+              <span>
+                <a href="assets/musics/2 - Rophnan - Qal.mp3" download="qignet_music-Rophnan_ Qal">
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                </a>
+
+                <button class="like_btn  theme-text-color   " value="25" onclick="add_like_song(this.value)">
+                  <i class="fa fa-heart " aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+
+            <div class="music_list">
+              <span class="left">
+                <button
+                  onclick="play_up(this)"
+                  title="click to open "
+                  data-artistname="Rophnan"
+                  data-title=" Behon"
+                  data-music_sours="6 - Rophnan - Essey.mp3"
+                  data-image="OIP (1).jpeg"
+                  data-artist="Rophnan"
+                  data-title=" Behon"
+                  data-id="26"
+                  data-user_id="34"
+                >
+                  <i class="fa fa-play " aria-hidden="true"></i>
+                </button>
+                <img src="assets/albem_arts/OIP (1).jpeg" alt="" />
+
+                <div class="music_detail">
+                  <p class="title">Behon</p>
+
+                  <p onclick="artistPage('34','Rophnan')" class="artist">Rophnan</p>
+                </div>
+              </span>
+
+              <span>
+                <a href="assets/musics/6 - Rophnan - Essey.mp3" download="qignet_music-Rophnan_ Behon">
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                </a>
+
+                <button class="like_btn  theme-text-color   " value="26" onclick="add_like_song(this.value)">
+                  <i class="fa fa-heart " aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+
+            <div class="music_list">
+              <span class="left">
+                <button
+                  onclick="play_up(this)"
+                  title="click to open "
+                  data-artistname="Zara larsson"
+                  data-title=" Right here"
+                  data-music_sours="Zara_Larsson_Right_Here.mp3"
+                  data-image="R (2).jpeg"
+                  data-artist="Zara larsson"
+                  data-title=" Right here"
+                  data-id="27"
+                  data-user_id="35"
+                >
+                  <i class="fa fa-play " aria-hidden="true"></i>
+                </button>
+                <img src="assets/albem_arts/R (2).jpeg" alt="" />
+
+                <div class="music_detail">
+                  <p class="title">Right here</p>
+
+                  <p onclick="artistPage('35','Zara larsson')" class="artist">Zara larsson</p>
+                </div>
+              </span>
+
+              <span>
+                <a href="assets/musics/Zara_Larsson_Right_Here.mp3" download="qignet_music-Zara larsson_ Right here">
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                </a>
+
+                <button class="like_btn  theme-text-color   " value="27" onclick="add_like_song(this.value)">
+                  <i class="fa fa-heart theme-text-color " aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+
+            <div class="music_list">
+              <span class="left">
+                <button
+                  onclick="play_up(this)"
+                  title="click to open "
+                  data-artistname="Imagine Dragons feat J.I.D"
+                  data-title=" Enemy"
+                  data-music_sours="Imagine_Dragons_x_J.I.D_-_Enemy_(from_the_series_Arcane_League_of_Legends)(360p)_00.mp3"
+                  data-image="OIP (2).jpeg"
+                  data-artist="Imagine Dragons feat J.I.D"
+                  data-title=" Enemy"
+                  data-id="28"
+                  data-user_id="36"
+                >
+                  <i class="fa fa-play " aria-hidden="true"></i>
+                </button>
+                <img src="assets/albem_arts/OIP (2).jpeg" alt="" />
+
+                <div class="music_detail">
+                  <p class="title">Enemy</p>
+
+                  <p onclick="artistPage('36','Imagine Dragons feat J.I.D')" class="artist">Imagine Dragons feat J.I.D</p>
+                </div>
+              </span>
+
+              <span>
+                <a
+                  href="assets/musics/Imagine_Dragons_x_J.I.D_-_Enemy_(from_the_series_Arcane_League_of_Legends)(360p)_00.mp3"
+                  download="qignet_music-Imagine Dragons feat J.I.D_ Enemy"
+                >
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                </a>
+
+                <button class="like_btn  theme-text-color   " value="28" onclick="add_like_song(this.value)">
+                  <i class="fa fa-heart " aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+          <div></div>
+        </div>
+
+        <!------   artist page   -------------->
+        <div style="display: none;" class="artist_page">
+          <div class="artist_page_container">
+            <div
+              class="artist_page "
+              style=" background: linear-gradient(transparent, var(--black_50)), url('assets/avatars/afbf4e6c-1df8-4151-8384-4e01333f2605-eternal_sunshine_standard_cover.avif');
+									background-position: center; background-size: cover; background-repeat: no-repeat;"
+            >
+              <span>
+                <h1>Ariana Grande</h1>
+
+                <button type="submit" value=" 32" onclick="follow(this.value)">
+                  <p>1 Follower</p>
+
+                  <i class="fa-solid fa-user-plus"> follow</i>
+                </button>
+              </span>
+            </div>
+            <div class="flex_list_container">
+              <h1></h1>
+
+              <button title="play all song" onclick="musics_sour( 32)"><i class="fa fa-play"> </i></button>
+            </div>
+
+            <div class="music_list_container">
+              <div class="music_list">
+                <span class="left">
+                  <button
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Ariana Grande"
+                    data-title=" Position"
+                    data-music_sours="Ariana Grande - positions.mp3"
+                    data-image="photo_2024-07-15_22-25-06.jpg"
+                    data-artist="Ariana Grande"
+                    data-id="21"
+                    data-user_id="32"
+                  >
+                    <i class="fa fa-play " aria-hidden="true"></i>
+                  </button>
+                  <img src="assets/albem_arts/photo_2024-07-15_22-25-06.jpg" alt="" />
+
+                  <div class="music_detail">
+                    <p class="title">Position</p>
+                    <p class="artist">Ariana Grande</p>
+                  </div>
+                </span>
+
+                <span>
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                  <button value="21" onclick="add_like_song(this.value)">
+                    <i class="fa  fa-heart" aria-hidden="true"></i>
+                  </button>
+                </span>
+              </div>
+
+              <div class="music_list">
+                <span class="left">
+                  <button
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Ariana Grande feat the weekend"
+                    data-title=" save your tears"
+                    data-music_sours="01 Save Your Tears (with Ariana Grande) (Remix).mp3"
+                    data-image="photo_2021-04-23_08-22-33.jpg"
+                    data-artist="Ariana Grande feat the weekend"
+                    data-id="22"
+                    data-user_id="32"
+                  >
+                    <i class="fa fa-play " aria-hidden="true"></i>
+                  </button>
+                  <img src="assets/albem_arts/photo_2021-04-23_08-22-33.jpg" alt="" />
+
+                  <div class="music_detail">
+                    <p class="title">save your tears</p>
+                    <p class="artist">Ariana Grande feat the weekend</p>
+                  </div>
+                </span>
+
+                <span>
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                  <button value="22" onclick="add_like_song(this.value)">
+                    <i class="fa  fa-heart" aria-hidden="true"></i>
+                  </button>
+                </span>
+              </div>
+
+              <div class="music_list">
+                <span class="left">
+                  <button
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Ariana grande feat social house"
+                    data-title=" boy friende"
+                    data-music_sours="01 boyfriend.mp3"
+                    data-image="photo_2024-07-15_22-17-39.jpg"
+                    data-artist="Ariana grande feat social house"
+                    data-id="23"
+                    data-user_id="32"
+                  >
+                    <i class="fa fa-play " aria-hidden="true"></i>
+                  </button>
+                  <img src="assets/albem_arts/photo_2024-07-15_22-17-39.jpg" alt="" />
+
+                  <div class="music_detail">
+                    <p class="title">boy friende</p>
+                    <p class="artist">Ariana grande feat social house</p>
+                  </div>
+                </span>
+
+                <span>
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                  <button value="23" onclick="add_like_song(this.value)">
+                    <i class="fa  fa-heart" aria-hidden="true"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:none" class="all_artist_page">
+          <div class="d-flex jc-space-between ai-center content_title">
+            <span> Artists </span>
+
+            <button value="-" onclick="searching(this.value)"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </div>
+
+          <div class="card_container">
+            <button
+              value="32"
+              onclick="artistPage(this.value,'Ariana Grande') "
+              style="background-image: url(&quot;assets/avatars/afbf4e6c-1df8-4151-8384-4e01333f2605-eternal_sunshine_standard_cover.avif&quot;); animation: auto ease 0s 1 normal none running none;"
+              class="card"
+            >
+              <span> Ariana Grande </span>
+            </button>
+
+            <button
+              value="33"
+              onclick="artistPage(this.value,'Selena Gomeze') "
+              style="background-image: url(&quot;assets/avatars/R.jpeg&quot;); animation: auto ease 0s 1 normal none running none;"
+              class="card"
+            >
+              <span> Selena Gomeze </span>
+            </button>
+
+            <button
+              value="34"
+              onclick="artistPage(this.value,'Rophnan') "
+              style="background-image: url(&quot;assets/avatars/rophnan.jpg&quot;); animation: auto ease 0s 1 normal none running none;"
+              class="card"
+            >
+              <span> Rophnan </span>
+            </button>
+
+            <button
+              value="35"
+              onclick="artistPage(this.value,'Zara larsson') "
+              style="background-image: url(&quot;assets/avatars/maxresdefault.jpg&quot;); animation: auto ease 0s 1 normal none running none;"
+              class="card"
+            >
+              <span> Zara larsson </span>
+            </button>
+
+            <button
+              value="36"
+              onclick="artistPage(this.value,'Imagine Dragons') "
+              style="background-image: url('assets/avatars/R (3).jpeg'); animation: auto ease 0s 1 normal none running none;"
+              class="card"
+            >
+              <span> Imagine Dragons </span>
+            </button>
+
+            <button
+              value="42"
+              onclick="artistPage(this.value,'dame') "
+              style="background-image: url(&quot;assets/avatars/IMG_20240224_102458-01.jpeg&quot;); animation: auto ease 0s 1 normal none running none;"
+              class="card"
+            >
+              <span> dame </span>
+            </button>
+
+            <button
+              value="43"
+              onclick="artistPage(this.value,'minte') "
+              style="background-image: url(&quot;assets/avatars/man-with-shocked-expression_108280-1843.avif&quot;); animation: auto ease 0s 1 normal none running none;"
+              class="card"
+            >
+              <span> minte </span>
+            </button>
+          </div>
+        </div>
+
+        <!-------  playlist page   -------------->
+        <div class="playlist_page"></div>
+        <!---------like_song page   -------------->
+        <div style="display:none ;" class="like_songs">
+          <div class="all_music_page_container">
+            <div
+              class="all_music_page p-sticky"
+              style="
+									 background: linear-gradient(transparent, var(--black_50)),
+
+									 url('assets/avatars/man-with-shocked-expression_108280-1843.avif');
+									; background-position: center;
+									background-size: cover;
+
+									background-repeat: no-repeat;"
+            >
+              <span>
+                <h1>like songs</h1>
+
+                <button onclick="all_songs()" title="add music"><i class="fs-1 fa fa-plus" aria-hidden="true"></i></button>
+              </span>
+            </div>
+
+            <div class="music_list_container">
+              <div class="d-flex jc-space-between ai-center content_title"><span> </span></div>
+
+              <div class="music_list">
+                <span class="left">
+                  <button
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Zara larsson"
+                    data-title=" Right here"
+                    data-music_sours="Zara_Larsson_Right_Here.mp3"
+                    data-image="R (2).jpeg"
+                    data-artist="Zara larsson"
+                    data-id="27"
+                    duser_musicata-user_id="35"
+                  >
+                    <i class="fa fa-play " aria-hidden="true"></i>
+                  </button>
+                  <img src="assets/albem_arts/R (2).jpeg" />
+
+                  <div class="music_detail">
+                    <p class="title">Right here</p>
+                    <p onclick="artistPage('35','Zara larsson')" class="artist">Zara larsson</p>
+                  </div>
+                </span>
+
+                <span>
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                  <button onclick="remove_like_song(27),43 "><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </span>
+              </div>
+
+              <div class="music_list">
+                <span class="left">
+                  <button
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Ariana Grande"
+                    data-title=" Position"
+                    data-music_sours="Ariana Grande - positions.mp3"
+                    data-image="photo_2024-07-15_22-25-06.jpg"
+                    data-artist="Ariana Grande"
+                    data-id="21"
+                    duser_musicata-user_id="32"
+                  >
+                    <i class="fa fa-play " aria-hidden="true"></i>
+                  </button>
+                  <img src="assets/albem_arts/photo_2024-07-15_22-25-06.jpg" />
+
+                  <div class="music_detail">
+                    <p class="title">Position</p>
+                    <p onclick="artistPage('32','Ariana Grande')" class="artist">Ariana Grande</p>
+                  </div>
+                </span>
+
+                <span>
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                  <button onclick="remove_like_song(21),43 "><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </span>
+              </div>
+
+              <div class="music_list">
+                <span class="left">
+                  <button
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Ariana Grande feat the weekend"
+                    data-title=" save your tears"
+                    data-music_sours="01 Save Your Tears (with Ariana Grande) (Remix).mp3"
+                    data-image="photo_2021-04-23_08-22-33.jpg"
+                    data-artist="Ariana Grande feat the weekend"
+                    data-id="22"
+                    duser_musicata-user_id="32"
+                  >
+                    <i class="fa fa-play " aria-hidden="true"></i>
+                  </button>
+                  <img src="assets/albem_arts/photo_2021-04-23_08-22-33.jpg" />
+
+                  <div class="music_detail">
+                    <p class="title">save your tears</p>
+                    <p onclick="artistPage('32','Ariana Grande feat the weekend')" class="artist">
+                      Ariana Grande feat the weekend
+                    </p>
+                  </div>
+                </span>
+
+                <span>
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                  <button onclick="remove_like_song(22),43 "><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </span>
+              </div>
+
+              <div class="music_list">
+                <span class="left">
+                  <button
+                    onclick="play_up(this)"
+                    title="click to open "
+                    data-artistname="Selena Gomeze"
+                    data-title=" love you like love song"
+                    data-music_sours="Selena-Gomez-Love-You-Like-A-Love-Song-128.mp3"
+                    data-image="R (1).jpeg"
+                    data-artist="Selena Gomeze"
+                    data-id="24"
+                    duser_musicata-user_id="33"
+                  >
+                    <i class="fa fa-play " aria-hidden="true"></i>
+                  </button>
+                  <img src="assets/albem_arts/R (1).jpeg" />
+
+                  <div class="music_detail">
+                    <p class="title">love you like love song</p>
+                    <p onclick="artistPage('33','Selena Gomeze')" class="artist">Selena Gomeze</p>
+                  </div>
+                </span>
+
+                <span>
+                  <button><i class="fa fa-download" aria-hidden="true"></i></button>
+                  <button onclick="remove_like_song(24),43 "><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--       all songs    -->
+        <div class="playlist_container">
+          <div style="display: none;" class="playlist_container">
+            50
+
+            <div>
+              <div class="all_music_page_container">
+                <div
+                  class="all_music_page p-sticky z-index-2"
+                  style=" background: linear-gradient(transparent, var(--black_50)),
+																							url('assets/albem_arts/photo_2024-06-29_19-03-31.jpg');
+																																																	; background-position: center;
+																																																	background-size: cover;
+
+																																																	background-repeat: no-repeat;"
+                >
+                  <span>
+                    <div>
+                      <h1>Behon</h1>
+                      -
+                      <h2 class="btn link">Rophnan</h2>
+                    </div>
+                    <button
+                      onclick="play_up(this)"
+                      title="click to open "
+                      data-artistname="Rophnan"
+                      data-title=" Behon"
+                      data-music_sours="7 - Rophnan - Bihon.mp3"
+                      data-image="photo_2024-06-29_19-03-31.jpg"
+                      data-artist="Rophnan"
+                      data-id="32"
+                    >
+                      <i class="fa fa-play"> </i>
+                    </button>
+                  </span>
+                </div>
+
+                <div class="music_list_container z-index-1">
+                  <div class="d-flex jc-space-between ai-center content_title">
+                    <span> </span>
+
+                    <button><i class="fa fa-list-ul" aria-hidden="true"></i></button>
+                  </div>
+
+                  <div class="music_list">
+                    <span class="left">
+                      <button
+                        onclick="play_up(this)"
+                        title="click to open "
+                        data-artistname="Rophnan"
+                        data-title=" Behon"
+                        data-music_sours="7 - Rophnan - Bihon.mp3"
+                        data-image="photo_2024-06-29_19-03-31.jpg"
+                        data-artist="Rophnan"
+                        data-id="32"
+                        data-user_id="34"
+                      >
+                        <i class="fa fa-play " aria-hidden="true"></i>
+                      </button>
+                      <img src="assets/albem_arts/photo_2024-06-29_19-03-31.jpg" />
+
+                      <div class="music_detail">
+                        <p class="title">Behon</p>
+
+                        <p onclick="artistPage('34','Rophnan')" class="artist">Rophnan</p>
+                      </div>
+                    </span>
+
+                    <span>
+                      <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                      <button value="32" onclick="add_like_song(this.value)">
+                        <i class="fa  fa-heart" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                  <div class="music_list">
+                    <span class="left">
+                      <button
+                        onclick="play_up(this)"
+                        title="click to open "
+                        data-artistname="Rophnan"
+                        data-title=" hamet"
+                        data-music_sours="5 - Rophnan - Hamet.mp3"
+                        data-image="photo_2024-07-04_02-04-47.jpg"
+                        data-artist="Rophnan"
+                        data-id="31"
+                        data-user_id="34"
+                      >
+                        <i class="fa fa-play " aria-hidden="true"></i>
+                      </button>
+                      <img src="assets/albem_arts/photo_2024-07-04_02-04-47.jpg" />
+
+                      <div class="music_detail">
+                        <p class="title">hamet</p>
+
+                        <p onclick="artistPage('34','Rophnan')" class="artist">Rophnan</p>
+                      </div>
+                    </span>
+
+                    <span>
+                      <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                      <button value="31" onclick="add_like_song(this.value)">
+                        <i class="fa  fa-heart" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                  <div class="music_list">
+                    <span class="left">
+                      <button
+                        onclick="play_up(this)"
+                        title="click to open "
+                        data-artistname="Ariana Grande"
+                        data-title=" Position"
+                        data-music_sours="Ariana Grande - positions.mp3"
+                        data-image="photo_2024-07-15_22-25-06.jpg"
+                        data-artist="Ariana Grande"
+                        data-id="21"
+                        data-user_id="32"
+                      >
+                        <i class="fa fa-play " aria-hidden="true"></i>
+                      </button>
+                      <img src="assets/albem_arts/photo_2024-07-15_22-25-06.jpg" />
+
+                      <div class="music_detail">
+                        <p class="title">Position</p>
+
+                        <p onclick="artistPage('32','Ariana Grande')" class="artist">Ariana Grande</p>
+                      </div>
+                    </span>
+
+                    <span>
+                      <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                      <button value="21" onclick="add_like_song(this.value)">
+                        <i class="fa  fa-heart" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                  <div class="music_list">
+                    <span class="left">
+                      <button
+                        onclick="play_up(this)"
+                        title="click to open "
+                        data-artistname="Ariana Grande feat the weekend"
+                        data-title=" save your tears"
+                        data-music_sours="01 Save Your Tears (with Ariana Grande) (Remix).mp3"
+                        data-image="photo_2021-04-23_08-22-33.jpg"
+                        data-artist="Ariana Grande feat the weekend"
+                        data-id="22"
+                        data-user_id="32"
+                      >
+                        <i class="fa fa-play " aria-hidden="true"></i>
+                      </button>
+                      <img src="assets/albem_arts/photo_2021-04-23_08-22-33.jpg" />
+
+                      <div class="music_detail">
+                        <p class="title">save your tears</p>
+
+                        <p onclick="artistPage('32','Ariana Grande feat the weekend')" class="artist">
+                          Ariana Grande feat the weekend
+                        </p>
+                      </div>
+                    </span>
+
+                    <span>
+                      <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                      <button value="22" onclick="add_like_song(this.value)">
+                        <i class="fa  fa-heart" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                  <div class="music_list">
+                    <span class="left">
+                      <button
+                        onclick="play_up(this)"
+                        title="click to open "
+                        data-artistname="Ariana grande feat social house"
+                        data-title=" boy friende"
+                        data-music_sours="01 boyfriend.mp3"
+                        data-image="photo_2024-07-15_22-17-39.jpg"
+                        data-artist="Ariana grande feat social house"
+                        data-id="23"
+                        data-user_id="32"
+                      >
+                        <i class="fa fa-play " aria-hidden="true"></i>
+                      </button>
+                      <img src="assets/albem_arts/photo_2024-07-15_22-17-39.jpg" />
+
+                      <div class="music_detail">
+                        <p class="title">boy friende</p>
+
+                        <p onclick="artistPage('32','Ariana grande feat social house')" class="artist">
+                          Ariana grande feat social house
+                        </p>
+                      </div>
+                    </span>
+
+                    <span>
+                      <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                      <button value="23" onclick="add_like_song(this.value)">
+                        <i class="fa  fa-heart" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                  <div class="music_list">
+                    <span class="left">
+                      <button
+                        onclick="play_up(this)"
+                        title="click to open "
+                        data-artistname="Selena Gomeze"
+                        data-title=" love you like love song"
+                        data-music_sours="Selena-Gomez-Love-You-Like-A-Love-Song-128.mp3"
+                        data-image="R (1).jpeg"
+                        data-artist="Selena Gomeze"
+                        data-id="24"
+                        data-user_id="33"
+                      >
+                        <i class="fa fa-play " aria-hidden="true"></i>
+                      </button>
+                      <img src="assets/albem_arts/R (1).jpeg" />
+
+                      <div class="music_detail">
+                        <p class="title">love you like love song</p>
+
+                        <p onclick="artistPage('33','Selena Gomeze')" class="artist">Selena Gomeze</p>
+                      </div>
+                    </span>
+
+                    <span>
+                      <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                      <button value="24" onclick="add_like_song(this.value)">
+                        <i class="fa  fa-heart" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                  <div class="music_list">
+                    <span class="left">
+                      <button
+                        onclick="play_up(this)"
+                        title="click to open "
+                        data-artistname="Rophnan"
+                        data-title=" Qal"
+                        data-music_sours="2 - Rophnan - Qal.mp3"
+                        data-image="OIP (1).jpeg"
+                        data-artist="Rophnan"
+                        data-id="25"
+                        data-user_id="34"
+                      >
+                        <i class="fa fa-play " aria-hidden="true"></i>
+                      </button>
+                      <img src="assets/albem_arts/OIP (1).jpeg" />
+
+                      <div class="music_detail">
+                        <p class="title">Qal</p>
+
+                        <p onclick="artistPage('34','Rophnan')" class="artist">Rophnan</p>
+                      </div>
+                    </span>
+
+                    <span>
+                      <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                      <button value="25" onclick="add_like_song(this.value)">
+                        <i class="fa  fa-heart" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                  <div class="music_list">
+                    <span class="left">
+                      <button
+                        onclick="play_up(this)"
+                        title="click to open "
+                        data-artistname="Rophnan"
+                        data-title=" Behon"
+                        data-music_sours="6 - Rophnan - Essey.mp3"
+                        data-image="OIP (1).jpeg"
+                        data-artist="Rophnan"
+                        data-id="26"
+                        data-user_id="34"
+                      >
+                        <i class="fa fa-play " aria-hidden="true"></i>
+                      </button>
+                      <img src="assets/albem_arts/OIP (1).jpeg" />
+
+                      <div class="music_detail">
+                        <p class="title">Behon</p>
+
+                        <p onclick="artistPage('34','Rophnan')" class="artist">Rophnan</p>
+                      </div>
+                    </span>
+
+                    <span>
+                      <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                      <button value="26" onclick="add_like_song(this.value)">
+                        <i class="fa  fa-heart" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                  <div class="music_list">
+                    <span class="left">
+                      <button
+                        onclick="play_up(this)"
+                        title="click to open "
+                        data-artistname="Zara larsson"
+                        data-title=" Right here"
+                        data-music_sours="Zara_Larsson_Right_Here.mp3"
+                        data-image="R (2).jpeg"
+                        data-artist="Zara larsson"
+                        data-id="27"
+                        data-user_id="35"
+                      >
+                        <i class="fa fa-play " aria-hidden="true"></i>
+                      </button>
+                      <img src="assets/albem_arts/R (2).jpeg" />
+
+                      <div class="music_detail">
+                        <p class="title">Right here</p>
+
+                        <p onclick="artistPage('35','Zara larsson')" class="artist">Zara larsson</p>
+                      </div>
+                    </span>
+
+                    <span>
+                      <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                      <button value="27" onclick="add_like_song(this.value)">
+                        <i class="fa  fa-heart" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                  <div class="music_list">
+                    <span class="left">
+                      <button
+                        onclick="play_up(this)"
+                        title="click to open "
+                        data-artistname="Imagine Dragons feat J.I.D"
+                        data-title=" Enemy"
+                        data-music_sours="Imagine_Dragons_x_J.I.D_-_Enemy_(from_the_series_Arcane_League_of_Legends)(360p)_00.mp3"
+                        data-image="OIP (2).jpeg"
+                        data-artist="Imagine Dragons feat J.I.D"
+                        data-id="28"
+                        data-user_id="36"
+                      >
+                        <i class="fa fa-play " aria-hidden="true"></i>
+                      </button>
+                      <img src="assets/albem_arts/OIP (2).jpeg" />
+
+                      <div class="music_detail">
+                        <p class="title">Enemy</p>
+
+                        <p onclick="artistPage('36','Imagine Dragons feat J.I.D')" class="artist">Imagine Dragons feat J.I.D</p>
+                      </div>
+                    </span>
+
+                    <span>
+                      <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                      <button value="28" onclick="add_like_song(this.value)">
+                        <i class="fa  fa-heart" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                  <div class="music_list">
+                    <span class="left">
+                      <button
+                        onclick="play_up(this)"
+                        title="click to open "
+                        data-artistname="Imagine Dragons"
+                        data-title=" Believer"
+                        data-music_sours="Imagine_Dragons_-_Believer_(Lyrics)(128kbps).mp3"
+                        data-image="OIP (3).jpeg"
+                        data-artist="Imagine Dragons"
+                        data-id="29"
+                        data-user_id="36"
+                      >
+                        <i class="fa fa-play " aria-hidden="true"></i>
+                      </button>
+                      <img src="assets/albem_arts/OIP (3).jpeg" />
+
+                      <div class="music_detail">
+                        <p class="title">Believer</p>
+
+                        <p onclick="artistPage('36','Imagine Dragons')" class="artist">Imagine Dragons</p>
+                      </div>
+                    </span>
+
+                    <span>
+                      <button><i class="fa fa-download" aria-hidden="true"></i></button>
+
+                      <button value="29" onclick="add_like_song(this.value)">
+                        <i class="fa  fa-heart" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                  <button onclick="all_songs_limit()" class="show_more">
+                    show more <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--       my account       --->
+
+        <div class="user_page_container">
+          <div
+            class="user_page p-sticky"
+            style="
+
+    background: linear-gradient(transparent, var(--black_50)),
+    url('assets/avatars/man-with-shocked-expression_108280-1843.avif');
+                ; background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;"
+          >
+            <span>
+              <h1>minte</h1>
+
+              <button onclick="profile_editor()"><i class="fas fa-user-edit"> edit</i></button>
+            </span>
+          </div>
+
+          <div class="d-flex jc-space-between ai-center content_title">
+            <span> <i class="fa fa-music" aria-hidden="true"></i> 0 Songs </span>
+
+            <span> <i class="fa fa-user" aria-hidden="true"> </i> 0 followers </span>
+          </div>
+
+          <div class="music_list_container"></div>
+
+          <div class="music_editor_container">
+            <div class="music_editor">
+              <form method="post" enctype="multipart/form-data" action="update">
+                <label class="profile_pics" for="albem_pic">
+                  <img src="" class="edit_music_image" />
+                  <span>
+                    <p><i class="fa fa-camera" aria-hidden="true"> change</i></p>
+                  </span>
+
+                  <input name="albem_art" oninput="checked_albem_art(this)" id="albem_pic" type="file" />
+                </label>
+
+                <label for="artist">
+                  <input
+                    oninput="if(this.value == null || this.value == ''){this.style.border = 'solid 1px red'}"
+                    type="text"
+                    name="artist"
+                    placeholder="artist name"
+                    class="edit_artist_name"
+                    value=""
+                  />
+                  <input type="hidden" name="music_id" placeholder="user name" class="edit_music_id" value="" />
+                  <input type="hidden" name="pre_albem_art" placeholder="user name" class="edit_pre_albem_art" value="" />
+                </label>
+                <label for="title">
+                  <input
+                    oninput="if(this.value == null || this.value == ''){this.style.border = 'solid 1px red'}"
+                    type="text"
+                    name="title"
+                    placeholder="title"
+                    class="edit_music_title"
+                    value=""
+                  />
+                </label>
+                <div class="btn">
+                  <button onclick="close_music_editor()" type="button">Cancel</button>
+                  <button name="music_update" type="submit">Applay</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!------  music delete dialoag      ------------>
+
+          <div style="display: none;" class="delete_container">
+            <div>
+              <span> Are you sure you want to delete</span>
+
+              <div class="delete_music_detail">
+                <img class="delete_music_image" id="artist_images" src="assets/albem_arts/OIP (2).jpeg" />
+                <h1 class="delete_music_name"></h1>
+                <h1 style="font-size: 16px;" class="delete_music_title"></h1>
+              </div>
+
+              <form method="post" action="update">
+                <button onclick="close_delete_dialog()" type="button">cancel</button>
+                <input value="" name="delete_music_id" class="delete_music_id" type="hidden" />
+                <button name="music_delete_btn" type="submit">delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3"></div>
+      </main>
+
+      <div class="editor_container">
+        <div class="edit_content">
+          <div class="header">
+            <button onclick="profile_editor()"><i class="fa-solid fa-xmark"></i></button>
+
+            <h1>Setting</h1>
+          </div>
+
+          <ul>
+            <form method="post" action="/update" class="image_edit" enctype="multipart/form-data">
+              <label for="profile_image">
+                <div class="dropBox"></div>
+                <img
+                  src="assets/avatars/man-with-shocked-expression_108280-1843.avif"
+                  class="profile_image_pre"
+                  alt="profile image"
+                />
+
+                <i class="fa fa-camera" aria-hidden="true"></i>
+                <input
+                  name="artist_image"
+                  oninput="checked_image(this)"
+                  style="display: none;"
+                  type="file"
+                  id="profile_image"
+                  accept="image/*"
+                />
+              </label>
+
+              <input type="hidden" value="43" name="user_id" />
+
+              <input type="submit" name="image_update" value="change" class="btn border_focu img_changeer_btn" />
+            </form>
+
+            <li onclick="account_info_editor()">
+              <span> <i class="fa fa-user" aria-hidden="true"></i> Account Information </span>
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </li>
+
+            <div class="account_info">
+              <div class="form_container ">
+                <span class="account_error"> </span>
+
+                <input type="text" placeholder="minte" id="user_name" />
+                <input type="email" name="email" id="user_email" placeholder="mintesnotyess@gmail.com" />
+                <button onclick="change_account()">confirm</button>
+              </div>
+            </div>
+
+            <li onclick="change_password_editor()">
+              <span> <i class="fa fa-key" aria-hidden="true"></i> change your password </span>
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </li>
+
+            <div class="change_password">
+              <div class="form_container ">
+                <span class="pass_error"> </span>
+
+                <input type="text" name="old_password" placeholder="old password" id="old_password" />
+                <input type="text" name="new_password" placeholder="new password" id="new_password" />
+                <input type="text" name="confirm_password" placeholder="confirm_password" id="confirm_password" />
+
+                <button onclick="change_passwords()">change</button>
+              </div>
+            </div>
+
+            <li onclick="change_theme_editor()">
+              <span> <i class="fa-solid fa-palette"></i>Theme </span> <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </li>
+            <div class="change_theme">
+              <div class="form_container ">
+                <label for="dark_mode" class="themes">
+                  <span> Dark mode</span> <input id="dark_mode" onclick=" dark_mode()" type="button" checked />
+                </label>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <audio src="/assets/musics/01 boyfriend.mp3" id="audio"></audio>
+
+    <div class="toast_cont"></div>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>

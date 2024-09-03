@@ -1,0 +1,100 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="music player " />
+    <link rel="icon" type="image/x-icon" href="assets/logo_1.png" />
+
+    <title>Qignet</title>
+
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <!--TODO: Font-awesome  ---->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!--TODO: Jquery  ---->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+
+  <body>
+    <div class="upload_file">
+      <form method="post" enctype="multipart/form-data">
+        <div>
+          <span> <h1>upload</h1> </span>
+        </div>
+
+        <label oninput="test()" for="music" class="music_upload">
+          <i class="fa fa-folder-open" aria-hidden="true"></i>
+
+          <p>choose music file</p>
+
+          <input accept="audio/*" type="file" name="music" id="music" /> <audio class="audio" src=""></audio>
+        </label>
+        <span style="display: none;" id="test_btn" onclick="played()">
+          <img id="test_btn_img" src="../assets/ControlersIcon/play-svgrepo-com.svg" alt="" />
+        </span>
+        <label for="artist"> <input type="text" placeholder="Artist" id="artist" value="Minte" name="artist" /> </label>
+        <label for="title"> <input placeholder="Title" type="text" id="title" value="" name="title" /> </label>
+        <label id="albem" for="albem_art">
+          <span id="albem_Image"> <img src="../assets/ControlersIcon/image.svg" id="albemImage" /> albem art </span>
+
+          <input oninput="image_input()" accept="image/*" type="file" id="albem_art" name="albem_art" />
+        </label>
+        <label for="description">
+          <textarea placeholder="description(optional)" id="description" name="description"></textarea>
+        </label>
+
+        <div class="submit_btns">
+          <button onclick="closed()" type="button">Cancel</button> <button name="uploadFile" type="submit">upload</button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      var audio = document.querySelector(".audio");
+      var test_btn = document.getElementById("test_btn");
+      var albemImage = document.getElementById("albemImage");
+
+      let tru = false;
+
+      function test() {
+        audio.src = URL.createObjectURL(music.files[0]);
+        test_btn.style.display = "block";
+        played();
+      }
+
+      function image_input() {
+        albemImage.src = URL.createObjectURL(albem_art.files[0]);
+      }
+
+      function closed() {
+        close();
+      }
+
+      function played() {
+        if (tru == false) {
+          audio.play();
+
+          test_btn_img.src = "../assets/ControlersIcon/pause-svgrepo-com.svg";
+
+          tru = true;
+        } else {
+          audio.pause();
+          test_btn_img.src = "../assets/ControlersIcon/play-svgrepo-com.svg";
+          tru = false;
+        }
+      }
+    </script>
+  </body>
+</html>
